@@ -3,61 +3,67 @@
 import Image from "next/image";
 import { TypeAnimation } from "react-type-animation";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
+// Import ikon untuk Timeline
+import { MdWork, MdSchool } from "react-icons/md"; 
 import {
   SiNextdotjs,
   SiReact,
   SiTailwindcss,
   SiTypescript,
-  SiPhp,
+  SiPhp, 
 } from "react-icons/si";
+import {
+  VerticalTimeline,
+  VerticalTimelineElement,
+} from "react-vertical-timeline-component";
 
-// Komponen Kustom
+
+// Komponen Kustom (Diasumsikan sudah ada)
 import ProfileCard from "./components/ProfileCard/ProfileCard";
 import SplashCursor from "./components/SplashCursor/SplashCursor";
 import DotGrid from "./components/DotGrid/DotGrid";
 import CircularText from "./components/CircularText/CircularText";
-import BlurText from "./components/BlurText/BlurText"; 
+import BlurText from "./components/BlurText/BlurText";
 import LogoLoop from "./components/LogoLoop/LogoLoop";
+import SplitText from "./components/SplitText/SplitText";
+import ElectricBorder from "./components/ElectricBorder/ElectricBorder"; 
+import LaserFlow from "./components/LaserFlow/LaserFlow";
 
+
+// =========================================================
+//                  DEKLARASI TIPE DATA
+// =========================================================
+
+// Tipe data untuk properti 'icon' di experienceData
+type IconType = "work" | "education"; 
+
+// Interface untuk struktur data pengalaman
+interface ExperienceItem {
+    date: string;
+    icon: IconType;
+    title: string;
+    subtitle: string;
+    description: string;
+}
+
+// =========================================================
+//                  DATA (Mencakup Pekerjaan dan Pendidikan)
+// =========================================================
+
+// Data Logo Teknologi
 const techLogos = [
-   {
-    node: <SiPhp />, 
-    title: "PHP",
-    href: "https://www.php.net", 
-  },
-  
-  { node: <SiReact />, 
-    title: "React", 
-    href: "https://react.dev" 
-  },
-
-  { node: <SiNextdotjs />, 
-    title: "Next.js", 
-    href: "https://nextjs.org"
-   },
-
-  {
-    node: <SiTypescript />,
-    title: "TypeScript",
-    href: "https://www.typescriptlang.org",
-  },
-
-  {
-    node: <SiTailwindcss />,
-    title: "Tailwind CSS",
-    href: "https://tailwindcss.com",
-  },
-
+  { node: <SiPhp />, title: "PHP", href: "https://www.php.net" },
+  { node: <SiReact />, title: "React", href: "https://react.dev" },
+  { node: <SiNextdotjs />, title: "Next.js", href: "https://nextjs.org" },
+  { node: <SiTypescript />, title: "TypeScript", href: "https://www.typescriptlang.org" },
+  { node: <SiTailwindcss />, title: "Tailwind CSS", href: "https://tailwindcss.com" },
 ];
 
-
-
-// Data projek
+// Data Projek
 const myProjects = [
   {
     title: "Gamifikasi",
-    description:
-      "Aplikasi Gamifikasi",
+    description: "Aplikasi Gamifikasi interaktif untuk meningkatkan engagement pengguna.",
     image: "/project1.png",
     link: "https://github.com/username/project-repo-1",
     tags: ["Next.js", "PostgreSQL", "Tailwind CSS"],
@@ -80,27 +86,101 @@ const myProjects = [
   },
 ];
 
+// Data Timeline (Pekerjaan dan Pendidikan LENGKAP)
+const fullTimelineData: ExperienceItem[] = [
+    {
+      date: "Juli 2023 - Sekarang",
+      icon: "work",
+      title: "Full-Stack Developer",
+      subtitle: "PT Contoh Solusi Digital",
+      description: "Mengembangkan dan memelihara aplikasi web menggunakan Next.js, TypeScript, dan PostgreSQL. Bertanggung jawab atas integrasi API dan desain basis data.",
+    },
+    {
+      date: "Agustus 2020 - Juni 2023",
+      icon: "work",
+      title: "Software Engineer Junior",
+      subtitle: "Start-up Inovasi Teknologi",
+      description: "Membangun fitur frontend menggunakan React dan Redux. Berkontribusi pada peningkatan performa aplikasi hingga 40%.",
+    },
+    {
+      date: "2021 - 2025",
+      icon: "education",
+      title: "S1 Sistem Informasi",
+      subtitle: "Universitas Ichsan Gorontalo Utara",
+      description: "Lulus dengan predikat cum laude. Fokus pada rekayasa perangkat lunak dan kecerdasan buatan.",
+    },
+
+    // DATA BARU: SMA
+    {
+        date: "2018 - 2021",
+        icon: "education",
+        title: "SMK (Teknik Instalasi Tenaga Listrik)",
+        subtitle: "SMK NEGERI 3 GORONTALO",
+        description: "Aktif di klub robotika dan berhasil meraih juara 3 kompetisi tingkat provinsi.",
+    },
+    // DATA BARU: SMP
+    {
+        date: "2010 - 2013",
+        icon: "education",
+        title: "SMP",
+        subtitle: "SMP KRISTEN MAESA",
+        description: "Mulai tertarik pada dunia teknologi dan pemrograman dasar melalui ekstrakurikuler komputer.",
+    },
+    // DATA BARU: SD
+    {
+        date: "2004 - 2010",
+        icon: "education",
+        title: "SD",
+        subtitle: "SDN 76 KOTA TENGAH",
+        description: "Dasar pendidikan formal.",
+    },
+];
+
+// Fungsi utilitas untuk mendapatkan ikon
+const getTimelineIcon = (iconType: IconType) => {
+    if (iconType === "work") {
+        return <MdWork />;
+    }
+    return <MdSchool />;
+};
+
 export default function Home() {
   const myEmail = "metyutupamahu84@gmail.com";
+  
+  // FILTER DATA: Hanya ambil item dengan icon "education"
+  const educationData = fullTimelineData.filter(item => item.icon === "education");
+
 
   return (
     <main className="bg-slate-900 text-slate-200">
       {/* ===== Header (Navbar) ===== */}
       <header className="bg-slate-900/80 backdrop-blur-sm text-slate-200 p-4 sticky top-0 z-50 shadow-lg shadow-cyan-500/10">
         <div className="container mx-auto flex justify-between items-center px-4">
-          <a
-            href="#home"
-            className="text-2xl font-black tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-teal-500"
-          >
-            Portofolio
-          </a>
-
+          <SplitText
+            text="Portofolio"
+            className="text-2xl font-semibold text-center"
+            delay={100}
+            duration={0.6}
+            ease="power3.out"
+            splitType="chars"
+            from={{ opacity: 0, y: 40 }}
+            to={{ opacity: 1, y: 0 }}
+            threshold={0.1}
+            rootMargin="-100px"
+            textAlign="center"
+          />
           <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
             <a
               href="#about"
               className="hover:text-cyan-400 transition-colors duration-300"
             >
               Tentang Saya
+            </a>
+            <a
+              href="#experience"
+              className="hover:text-cyan-400 transition-colors duration-300"
+            >
+              Pendidikan
             </a>
             <a
               href="#projects"
@@ -187,7 +267,7 @@ export default function Home() {
             <BlurText
               text="I'm Ready For Job"
               delay={150}
-              animateBy="words" // Atau "characters" jika Anda ingin per huruf
+              animateBy="words" 
               direction="top"
               className="text-4xl md:text-6xl font-extrabold text-slate-100"
             />
@@ -204,7 +284,7 @@ export default function Home() {
             ]}
             wrapper="p"
             speed={50}
-            className="text-xl md:text-3xl text-cyan-400 font-semibold mt-4" // Margin disesuaikan agar tidak terlalu dekat dengan BlurText
+            className="text-xl md:text-3xl text-cyan-400 font-semibold mt-4" 
             repeat={Infinity}
           />
 
@@ -268,6 +348,50 @@ export default function Home() {
           </div>
         </div>
       </section>
+      
+      {/* ---------------------------------------------------- */}
+
+      {/* ===== Bagian Pendidikan (Education - Vertical Timeline) ===== */}
+      <section id="experience" className="py-24 bg-slate-900">
+          <div className="container mx-auto px-4">
+              <h2 className="text-4xl font-bold text-center mb-4">
+                  Riwayat Pendidikan
+              </h2>
+              <div className="w-24 h-1 bg-cyan-500 mx-auto mb-16"></div>
+
+              <VerticalTimeline lineColor={"#06b6d4"}> {/* Warna cyan */}
+                  {/* MENGGUNAKAN DATA YANG SUDAH DIFILTER (hanya 'education') */}
+                  {educationData.map((item, index) => (
+                      <VerticalTimelineElement
+                          key={index}
+                          className="vertical-timeline-element--education"
+                          // Styling agar sesuai dengan tema gelap
+                          contentStyle={{ background: "#1f2937", color: "#e2e8f0", boxShadow: "0 3px 0 #06b6d4" }} 
+                          contentArrowStyle={{ borderRight: "7px solid #1f2937" }} 
+                          date={item.date}
+                          iconStyle={{ background: "#06b6d4", color: "#fff" }} 
+                          icon={getTimelineIcon(item.icon)}
+                      >
+                          <h3 className="vertical-timeline-element-title text-2xl font-semibold text-slate-100">
+                              {item.title}
+                          </h3>
+                          <h4 className="vertical-timeline-element-subtitle text-lg text-cyan-400 mt-1">
+                              {item.subtitle}
+                          </h4>
+                          <p className="text-slate-300 mt-2">{item.description}</p>
+                      </VerticalTimelineElement>
+                  ))}
+                  {/* Element penutup timeline (opsional) */}
+                  <VerticalTimelineElement
+                      iconStyle={{ background: "rgb(16, 204, 82)", color: "#fff" }}
+                      icon={<MdSchool />}
+                  />
+              </VerticalTimeline>
+          </div>
+      </section>
+
+      {/* ---------------------------------------------------- */}
+      
       <h1 className="text-4xl mb-10 text-center font-semibold">Keahlian</h1>
       <LogoLoop
         logos={techLogos}
@@ -281,7 +405,8 @@ export default function Home() {
         fadeOutColor="#00d3f3"
         ariaLabel="Technology partners"
       />
-      {/* ===== Bagian Projek (Projects) ===== */}
+      
+      {/* ===== Bagian Projek (Projects) - Menggunakan ElectricBorder ===== */}
       <section id="projects" className="py-24 bg-slate-900">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-4">
@@ -291,46 +416,54 @@ export default function Home() {
           {/* Responsif Grid: 1 kolom di ponsel, 2 di tablet, 3 di desktop */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {myProjects.map((project, index) => (
-              <div
+              // Bungkus setiap kartu proyek dengan ElectricBorder
+              <ElectricBorder
                 key={index}
-                className="bg-gray-800/50 rounded-lg overflow-hidden shadow-lg shadow-cyan-500/10 group transform transition-all duration-300 hover:!scale-105 hover:shadow-cyan-500/20"
+                color="#06b6d4" // Warna Cyan
+                speed={0.5} 
+                chaos={0.6} 
+                thickness={2} 
+                style={{ borderRadius: 8, overflow: 'hidden' }} 
+                className="group transform transition-all duration-300 hover:!scale-[1.02] cursor-pointer" 
               >
-                <div className="relative overflow-hidden">
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    width={500}
-                    height={300}
-                    className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-full transition-colors"
-                    >
-                      Lihat Detail
-                    </a>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-2xl font-bold mb-2 text-slate-100">
-                    {project.title}
-                  </h3>
-                  <p className="text-slate-400 mb-4">{project.description}</p>
-                  <div className="flex flex-wrap gap-2 mt-4">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-xs font-semibold bg-cyan-900/50 text-cyan-300 py-1 px-3 rounded-full"
-                      >
-                        {tag}
+                <a 
+                  href={project.link} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block h-full bg-gray-800/50" // Kontainer internal
+                >
+                  <div className="relative overflow-hidden">
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      width={500}
+                      height={300}
+                      className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <span className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-full transition-colors">
+                        Lihat Detail
                       </span>
-                    ))}
+                    </div>
                   </div>
-                </div>
-              </div>
+                  <div className="p-6">
+                    <h3 className="text-2xl font-bold mb-2 text-slate-100">
+                      {project.title}
+                    </h3>
+                    <p className="text-slate-400 mb-4">{project.description}</p>
+                    <div className="flex flex-wrap gap-2 mt-4">
+                      {project.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-xs font-semibold bg-cyan-900/50 text-cyan-300 py-1 px-3 rounded-full"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </a>
+              </ElectricBorder>
             ))}
           </div>
         </div>
