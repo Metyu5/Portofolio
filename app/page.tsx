@@ -1,22 +1,27 @@
 "use client";
 
 import Image from "next/image";
+
+import { useState } from "react";
+import { FiMenu, FiX } from "react-icons/fi";
+import { motion, AnimatePresence } from "framer-motion";
 import { TypeAnimation } from "react-type-animation";
+
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
-// Import ikon untuk Timeline
-import { MdWork, MdSchool } from "react-icons/md"; 
+
+import { MdWork, MdSchool } from "react-icons/md";
 import {
   SiNextdotjs,
   SiReact,
   SiTailwindcss,
   SiTypescript,
-  SiPhp, 
+  SiPhp,
 } from "react-icons/si";
+
 import {
   VerticalTimeline,
   VerticalTimelineElement,
 } from "react-vertical-timeline-component";
-
 
 // Komponen Kustom (Diasumsikan sudah ada)
 import ProfileCard from "./components/ProfileCard/ProfileCard";
@@ -26,138 +31,154 @@ import CircularText from "./components/CircularText/CircularText";
 import BlurText from "./components/BlurText/BlurText";
 import LogoLoop from "./components/LogoLoop/LogoLoop";
 import SplitText from "./components/SplitText/SplitText";
-import ElectricBorder from "./components/ElectricBorder/ElectricBorder"; 
+import ElectricBorder from "./components/ElectricBorder/ElectricBorder";
 import LaserFlow from "./components/LaserFlow/LaserFlow";
+import Link from "next/link";
 
-
-// =========================================================
-//                  DEKLARASI TIPE DATA
-// =========================================================
-
-// Tipe data untuk properti 'icon' di experienceData
-type IconType = "work" | "education"; 
+type IconType = "work" | "education";
 
 // Interface untuk struktur data pengalaman
 interface ExperienceItem {
-    date: string;
-    icon: IconType;
-    title: string;
-    subtitle: string;
-    description: string;
+  date: string;
+  icon: IconType;
+  title: string;
+  subtitle: string;
+  description: string;
 }
-
-// =========================================================
-//                  DATA (Mencakup Pekerjaan dan Pendidikan)
-// =========================================================
 
 // Data Logo Teknologi
 const techLogos = [
   { node: <SiPhp />, title: "PHP", href: "https://www.php.net" },
   { node: <SiReact />, title: "React", href: "https://react.dev" },
   { node: <SiNextdotjs />, title: "Next.js", href: "https://nextjs.org" },
-  { node: <SiTypescript />, title: "TypeScript", href: "https://www.typescriptlang.org" },
-  { node: <SiTailwindcss />, title: "Tailwind CSS", href: "https://tailwindcss.com" },
+  {
+    node: <SiTypescript />,
+    title: "TypeScript",
+    href: "https://www.typescriptlang.org",
+  },
+  {
+    node: <SiTailwindcss />,
+    title: "Tailwind CSS",
+    href: "https://tailwindcss.com",
+  },
 ];
 
-// Data Projek
+// Data Projek dengan gambar
 const myProjects = [
   {
-    title: "Gamifikasi",
-    description: "Aplikasi Gamifikasi interaktif untuk meningkatkan engagement pengguna.",
-    image: "/project1.png",
-    link: "https://github.com/username/project-repo-1",
-    tags: ["Next.js", "PostgreSQL", "Tailwind CSS"],
+    title: "WebGami",
+    description:
+      "Aplikasi Gamifikasi interaktif untuk meningkatkan engagement pengguna.",
+    image: "/webgami/game1.png",
+    link: "https://github.com/Metyu5/WebGami",
+    tags: ["Pasher.Js", "PHP", "Tailwind CSS", "JavaScript", "MySQL"],
   },
   {
-    title: "Website Company Profile",
+    title: "SiBudidayaKakap",
     description:
       "Website modern dan responsif untuk profil perusahaan teknologi, dibuat dengan Next.js.",
-    image: "/project2.png",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop&q=80",
     link: "https://github.com/username/project-repo-2",
-    tags: ["Next.js", "React", "Framer Motion"],
+    tags: ["PHP", "Tailwind CSS", "MySQL"],
   },
   {
-    title: "Aplikasi Blog Pribadi",
+    title: "Sipenkes",
     description:
       "Blog pribadi yang dibuat dengan Next.js dan Tailwind CSS, mengambil data dari file Markdown.",
-    image: "/project3.png",
+    image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&h=500&fit=crop&q=80",
     link: "https://github.com/username/project-repo-3",
     tags: ["Next.js", "Markdown", "Tailwind CSS"],
+  },
+  {
+    title: "Sistem Pakar",
+    description:
+      "proyek Sistem Pakar Diagnosa Penyakit Betta Fish berbasis android, menggunakan Backward Chaining & Certainty Factor untuk menentukan kemungkinan penyakit berdasarkan gejala yang dipilih..",
+    image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&h=500&fit=crop&q=80",
+    link: "https://github.com/Metyu5/sispak-android",
+    tags: ["Java", "PHP", "MySQL"],
   },
 ];
 
 // Data Timeline (Pekerjaan dan Pendidikan LENGKAP)
 const fullTimelineData: ExperienceItem[] = [
-    {
-      date: "Juli 2023 - Sekarang",
-      icon: "work",
-      title: "Full-Stack Developer",
-      subtitle: "PT Contoh Solusi Digital",
-      description: "Mengembangkan dan memelihara aplikasi web menggunakan Next.js, TypeScript, dan PostgreSQL. Bertanggung jawab atas integrasi API dan desain basis data.",
-    },
-    {
-      date: "Agustus 2020 - Juni 2023",
-      icon: "work",
-      title: "Software Engineer Junior",
-      subtitle: "Start-up Inovasi Teknologi",
-      description: "Membangun fitur frontend menggunakan React dan Redux. Berkontribusi pada peningkatan performa aplikasi hingga 40%.",
-    },
-    {
-      date: "2021 - 2025",
-      icon: "education",
-      title: "S1 Sistem Informasi",
-      subtitle: "Universitas Ichsan Gorontalo Utara",
-      description: "Lulus dengan predikat cum laude. Fokus pada rekayasa perangkat lunak dan kecerdasan buatan.",
-    },
+  {
+    date: "Juli 2023 - Sekarang",
+    icon: "work",
+    title: "Full-Stack Developer",
+    subtitle: "PT Contoh Solusi Digital",
+    description:
+      "Mengembangkan dan memelihara aplikasi web menggunakan Next.js, TypeScript, dan PostgreSQL. Bertanggung jawab atas integrasi API dan desain basis data.",
+  },
+  {
+    date: "Agustus 2020 - Juni 2023",
+    icon: "work",
+    title: "Software Engineer Junior",
+    subtitle: "Start-up Inovasi Teknologi",
+    description:
+      "Membangun fitur frontend menggunakan React dan Redux. Berkontribusi pada peningkatan performa aplikasi hingga 40%.",
+  },
+  {
+    date: "2021 - 2025",
+    icon: "education",
+    title: "S1 Sistem Informasi",
+    subtitle: "Universitas Ichsan Gorontalo Utara",
+    description:
+      "Lulus dengan predikat cum laude. Fokus pada rekayasa perangkat lunak dan kecerdasan buatan.",
+  },
 
-    // DATA BARU: SMA
-    {
-        date: "2018 - 2021",
-        icon: "education",
-        title: "SMK (Teknik Instalasi Tenaga Listrik)",
-        subtitle: "SMK NEGERI 3 GORONTALO",
-        description: "Aktif di klub robotika dan berhasil meraih juara 3 kompetisi tingkat provinsi.",
-    },
-    // DATA BARU: SMP
-    {
-        date: "2010 - 2013",
-        icon: "education",
-        title: "SMP",
-        subtitle: "SMP KRISTEN MAESA",
-        description: "Mulai tertarik pada dunia teknologi dan pemrograman dasar melalui ekstrakurikuler komputer.",
-    },
-    // DATA BARU: SD
-    {
-        date: "2004 - 2010",
-        icon: "education",
-        title: "SD",
-        subtitle: "SDN 76 KOTA TENGAH",
-        description: "Dasar pendidikan formal.",
-    },
+  // DATA BARU: SMA
+  {
+    date: "2018 - 2021",
+    icon: "education",
+    title: "SMK (Teknik Instalasi Tenaga Listrik)",
+    subtitle: "SMK NEGERI 3 GORONTALO",
+    description:
+      "Aktif di klub robotika dan berhasil meraih juara 3 kompetisi tingkat provinsi.",
+  },
+  // DATA BARU: SMP
+  {
+    date: "2010 - 2013",
+    icon: "education",
+    title: "SMP",
+    subtitle: "SMP KRISTEN MAESA",
+    description:
+      "Mulai tertarik pada dunia teknologi dan pemrograman dasar melalui ekstrakurikuler komputer.",
+  },
+  // DATA BARU: SD
+  {
+    date: "2004 - 2010",
+    icon: "education",
+    title: "SD",
+    subtitle: "SDN 76 KOTA TENGAH",
+    description: "Dasar pendidikan formal.",
+  },
 ];
 
 // Fungsi utilitas untuk mendapatkan ikon
 const getTimelineIcon = (iconType: IconType) => {
-    if (iconType === "work") {
-        return <MdWork />;
-    }
-    return <MdSchool />;
+  if (iconType === "work") {
+    return <MdWork />;
+  }
+  return <MdSchool />;
 };
 
 export default function Home() {
   const myEmail = "metyutupamahu84@gmail.com";
-  
+  const [isOpen, setIsOpen] = useState(false);
   // FILTER DATA: Hanya ambil item dengan icon "education"
-  const educationData = fullTimelineData.filter(item => item.icon === "education");
-
+  const educationData = fullTimelineData.filter(
+    (item) => item.icon === "education"
+  );
 
   return (
-    <main className="bg-slate-900 text-slate-200">
+    <main className="bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 text-slate-200">
       {/* ===== Header (Navbar) ===== */}
-      <header className="bg-slate-900/80 backdrop-blur-sm text-slate-200 p-4 sticky top-0 z-50 shadow-lg shadow-cyan-500/10">
-        <div className="container mx-auto flex justify-between items-center px-4">
+      <header className="backdrop-blur-md text-slate-200 p-4 sticky top-0 z-50 border-b border-blue-500/10">
+      <div className="container mx-auto flex justify-between items-center px-4">
+        {/* Logo dengan SplitText */}
+        <div className="text-2xl font-bold">
           <SplitText
-            text="Portofolio"
+           text="Portofolio"
             className="text-2xl font-semibold text-center"
             delay={100}
             duration={0.6}
@@ -169,56 +190,55 @@ export default function Home() {
             rootMargin="-100px"
             textAlign="center"
           />
-          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-            <a
-              href="#about"
-              className="hover:text-cyan-400 transition-colors duration-300"
-            >
-              Tentang Saya
-            </a>
-            <a
-              href="#experience"
-              className="hover:text-cyan-400 transition-colors duration-300"
-            >
-              Pendidikan
-            </a>
-            <a
-              href="#projects"
-              className="hover:text-cyan-400 transition-colors duration-300"
-            >
-              Projek
-            </a>
-            <a
-              href="#contact"
-              className="hover:text-cyan-400 transition-colors duration-300"
-            >
-              Kontak
-            </a>
-            <a
-              href="/resume.pdf"
-              target="_blank"
-              className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-full transition-colors duration-300"
-            >
+        </div>
+
+        {/* Menu desktop */}
+        <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+          <Link href="#experience" className="hover:text-blue-400 transition-colors duration-300">Pendidikan</Link>
+          <Link href="#certificates" className="hover:text-blue-400 transition-colors duration-300">Sertifikat</Link>
+          <Link href="#projects" className="hover:text-blue-400 transition-colors duration-300">Projek</Link>
+          <Link href="#contact" className="hover:text-blue-400 transition-colors duration-300">Kontak</Link>
+          <Link href="/resume.pdf" target="_blank"
+            className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-bold py-2 px-4 rounded-full transition-all duration-300 shadow-lg shadow-blue-500/30">
+            Resume
+          </Link>
+        </nav>
+
+        {/* Tombol Hamburger (Mobile Only) */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="md:hidden text-2xl text-blue-400 focus:outline-none"
+        >
+          {isOpen ? <FiX /> : <FiMenu />}
+        </button>
+      </div>
+
+      {/* Menu Mobile */}
+      {isOpen && (
+        <div className="md:hidden backdrop-blur-lg border-t border-blue-500/20">
+          <nav className="flex flex-col items-center space-y-4 py-6 text-lg font-medium">
+            <Link onClick={() => setIsOpen(false)} href="#experience" className="hover:text-blue-400 transition-colors">Pendidikan</Link>
+            <Link onClick={() => setIsOpen(false)} href="#certificates" className="hover:text-blue-400 transition-colors">Sertifikat</Link>
+            <Link onClick={() => setIsOpen(false)} href="#projects" className="hover:text-blue-400 transition-colors">Projek</Link>
+            <Link onClick={() => setIsOpen(false)} href="#contact" className="hover:text-blue-400 transition-colors">Kontak</Link>
+            <Link onClick={() => setIsOpen(false)} href="/resume.pdf" target="_blank"
+              className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-bold py-2 px-6 rounded-full transition-all shadow-lg shadow-blue-500/30">
               Resume
-            </a>
+            </Link>
           </nav>
         </div>
-      </header>
-
-      {/* ---------------------------------------------------- */}
-
-      {/* ===== Hero Section (DotGrid + SplashCursor + Content) ===== */}
+      )}
+    </header>
       <section
         id="home"
-        className="min-h-screen flex items-center relative overflow-hidden bg-slate-900"
+        className="min-h-screen flex items-center relative overflow-hidden"
       >
-        {/* Layer 1: Dot Grid Background */}
         <div className="absolute inset-0 w-full h-full z-0">
           <DotGrid
             dotSize={2}
             gap={25}
-            baseColor="#1f2937"
-            activeColor="#06b6d4"
+            baseColor="#0f172a"
+            activeColor="#3b82f6"
             proximity={120}
             shockRadius={250}
             shockStrength={5}
@@ -227,7 +247,10 @@ export default function Home() {
           />
         </div>
 
-        {/* Layer 2: Splash Cursor */}
+        {/* Gradient Orbs untuk efek visual */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+
         <SplashCursor />
 
         {/* Layer 3: Content (Profile Card, Text, Social Icons) */}
@@ -267,9 +290,9 @@ export default function Home() {
             <BlurText
               text="I'm Ready For Job"
               delay={150}
-              animateBy="words" 
+              animateBy="words"
               direction="top"
-              className="text-4xl md:text-6xl font-extrabold text-slate-100"
+              className="text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500 bg-clip-text text-transparent"
             />
           </div>
 
@@ -284,7 +307,7 @@ export default function Home() {
             ]}
             wrapper="p"
             speed={50}
-            className="text-xl md:text-3xl text-cyan-400 font-semibold mt-4" 
+            className="text-xl md:text-3xl text-cyan-400 font-semibold mt-4"
             repeat={Infinity}
           />
 
@@ -297,157 +320,308 @@ export default function Home() {
           </p>
           {/* Link Sosial dan Email */}
           <div className="flex justify-center space-x-6 mt-8">
-            <a
+            <Link
               href="https://github.com/Metyu5"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-slate-400 hover:text-cyan-400 transition-colors duration-300"
+              className="text-slate-400 hover:text-blue-400 transition-colors duration-300 hover:scale-110 transform"
             >
               <FaGithub size={30} />
-            </a>
-            <a
+            </Link>
+            <Link
               href="https://linkedin.com/in/stephanus-saputra-tupamahu"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-slate-400 hover:text-cyan-400 transition-colors duration-300"
+              className="text-slate-400 hover:text-cyan-400 transition-colors duration-300 hover:scale-110 transform"
             >
               <FaLinkedin size={30} />
-            </a>
-            <a
+            </Link>
+            <Link
               href={`mailto:${myEmail}`}
-              className="text-slate-400 hover:text-cyan-400 transition-colors duration-300"
+              className="text-slate-400 hover:text-blue-400 transition-colors duration-300 hover:scale-110 transform"
             >
               <FaEnvelope size={30} />
-            </a>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* ---------------------------------------------------- */}
-
-      {/* ===== Bagian Tentang Saya & Skills ===== */}
-      <section id="about" className="py-24 bg-gray-900">
-        <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-4">About Me</h2>
-          <div className="w-24 h-1 bg-cyan-500 mx-auto mb-12"></div>
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="text-lg text-slate-300 leading-relaxed">
-              <p className="mb-4">
-                As a passionate web developer with a strong focus on the
-                JavaScript ecosystem, especially React and Next.js, I take pride
-                in turning complex concepts into elegant, intuitive
-                applications.
-              </p>
-              <p>
-                With experience across both frontend and backend development, I
-                am confident in delivering complete, scalable solutions. I am
-                driven by curiosity, continuous learning, and a commitment to
-                finding the most effective ways to solve problems.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-      
       {/* ---------------------------------------------------- */}
 
       {/* ===== Bagian Pendidikan (Education - Vertical Timeline) ===== */}
-      <section id="experience" className="py-24 bg-slate-900">
-          <div className="container mx-auto px-4">
-              <h2 className="text-4xl font-bold text-center mb-4">
-                  Riwayat Pendidikan
-              </h2>
-              <div className="w-24 h-1 bg-cyan-500 mx-auto mb-16"></div>
+      <section id="experience" className="py-24 bg-slate-950/50 backdrop-blur-sm relative">
+        {/* Background Accent */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl"></div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <h2 className="text-4xl font-bold text-center mb-4 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+            Riwayat Pendidikan
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto mb-16"></div>
 
-              <VerticalTimeline lineColor={"#06b6d4"}> {/* Warna cyan */}
-                  {/* MENGGUNAKAN DATA YANG SUDAH DIFILTER (hanya 'education') */}
-                  {educationData.map((item, index) => (
-                      <VerticalTimelineElement
-                          key={index}
-                          className="vertical-timeline-element--education"
-                          // Styling agar sesuai dengan tema gelap
-                          contentStyle={{ background: "#1f2937", color: "#e2e8f0", boxShadow: "0 3px 0 #06b6d4" }} 
-                          contentArrowStyle={{ borderRight: "7px solid #1f2937" }} 
-                          date={item.date}
-                          iconStyle={{ background: "#06b6d4", color: "#fff" }} 
-                          icon={getTimelineIcon(item.icon)}
-                      >
-                          <h3 className="vertical-timeline-element-title text-2xl font-semibold text-slate-100">
-                              {item.title}
-                          </h3>
-                          <h4 className="vertical-timeline-element-subtitle text-lg text-cyan-400 mt-1">
-                              {item.subtitle}
-                          </h4>
-                          <p className="text-slate-300 mt-2">{item.description}</p>
-                      </VerticalTimelineElement>
-                  ))}
-                  {/* Element penutup timeline (opsional) */}
-                  <VerticalTimelineElement
-                      iconStyle={{ background: "rgb(16, 204, 82)", color: "#fff" }}
-                      icon={<MdSchool />}
-                  />
-              </VerticalTimeline>
-          </div>
+          <VerticalTimeline lineColor={"#3b82f6"}>
+            {educationData.map((item, index) => (
+              <VerticalTimelineElement
+                key={index}
+                className="vertical-timeline-element--education"
+                contentStyle={{
+                  background: "linear-gradient(135deg, #1e293b 0%, #0f172a 100%)",
+                  color: "#e2e8f0",
+                  boxShadow: "0 3px 0 #3b82f6, 0 0 20px rgba(59, 130, 246, 0.3)",
+                  border: "1px solid rgba(59, 130, 246, 0.3)",
+                  borderRadius: "12px",
+                }}
+                contentArrowStyle={{ borderRight: "7px solid #1e293b" }}
+                date={item.date}
+                iconStyle={{ 
+                  background: "linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)", 
+                  color: "#fff",
+                  boxShadow: "0 0 20px rgba(59, 130, 246, 0.6)",
+                }}
+                icon={getTimelineIcon(item.icon)}
+              >
+                <h3 className="vertical-timeline-element-title text-2xl font-semibold text-slate-100">
+                  {item.title}
+                </h3>
+                <h4 className="vertical-timeline-element-subtitle text-lg text-blue-400 mt-1">
+                  {item.subtitle}
+                </h4>
+                <p className="text-slate-300 mt-2">{item.description}</p>
+              </VerticalTimelineElement>
+            ))}
+            <VerticalTimelineElement
+              iconStyle={{ 
+                background: "linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)", 
+                color: "#fff" 
+              }}
+              icon={<MdSchool />}
+            />
+          </VerticalTimeline>
+        </div>
       </section>
 
       {/* ---------------------------------------------------- */}
-      
-      <h1 className="text-4xl mb-10 text-center font-semibold">Keahlian</h1>
-      <LogoLoop
-        logos={techLogos}
-        speed={120}
-        direction="left"
-        logoHeight={48}
-        gap={40}
-        pauseOnHover
-        scaleOnHover
-        fadeOut
-        fadeOutColor="#00d3f3"
-        ariaLabel="Technology partners"
-      />
-      
+
+      <section className="py-16 bg-gradient-to-b from-slate-950/50 to-slate-950 relative">
+        <div className="absolute inset-0 w-full h-full overflow-hidden">
+          <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/3 right-1/4 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="container mx-auto relative z-10">
+          <h1 className="text-4xl mb-10 text-center font-semibold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+            Keahlian
+          </h1>
+          <LogoLoop
+            logos={techLogos}
+            speed={120}
+            direction="left"
+            logoHeight={48}
+            gap={40}
+            pauseOnHover
+            scaleOnHover
+            fadeOut
+            fadeOutColor="#3b82f6"
+            ariaLabel="Technology partners"
+          />
+        </div>
+      </section>
+
+      {/* ===== Bagian Sertifikat (Certificates) ===== */}
+      <section id="certificates" className="py-24 bg-slate-950/80 relative overflow-hidden">
+        {/* Animated Background Elements */}
+        <div className="absolute top-0 left-0 w-full h-full">
+          <div className="absolute top-20 left-10 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-blue-600/5 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
+              Sertifikat & Pencapaian
+            </h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto mb-4"></div>
+            <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+              Bukti dedikasi dan komitmen saya dalam pengembangan diri
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            {[
+              {
+                title: "JUNIOR REMOTE PILOT",
+                issuer: "FEDERASI AERO SPORT INDONESIA UNMANNED AERIAL VEHICLE-DRONE",
+                date: "2025",
+                image: "/sertifikat/pilotremote.png",
+                description: "Has Successfully Completed Junior Remote Pilot Aeronautical Knowledge Course For Small Unmanned Aircraft Systems (sUAS) in the field of Airsport, Educational, and Recreational",
+                color: "from-blue-500 to-cyan-500"
+              },
+              {
+                title: "DASAR-DASAR CYBER SECURITY",
+                issuer: "Coding Studio",
+                date: "2025",
+                image: "/sertifikat/codingstudio.png",
+                description: "Complete an online course on cybersecurity fundamentals, covering information security principles, types of cyber threats, network protection, and best practices in maintaining digital security.",
+                color: "from-cyan-500 to-blue-600"
+              },
+              {
+                title: "FUNDAMENTAL JAVA PROGRAMMING",
+                issuer: "Coding Studio",
+                date: "2025",
+                image: "/sertifikat/javaprogramming.png",
+                description: "Successfully complete the Fundamental Java Programming course, covering core Java concepts such as OOP, data types, control structures, and basic algorithm implementations.",
+                color: "from-blue-600 to-cyan-400"
+              },
+              
+              {
+                title: "APLIKASI KOMPUTER",
+                issuer: "Is NUN",
+                date: "2021",
+                image: "/sertifikat/sertifikat-komputer.jpeg",
+                description: "Computer Completion Certificate from the IS NUN Vocational Education and Training Institute. I learned basic computer skills, including mastery of Microsoft Office (Word, Excel, PowerPoint) to support my work productivity.",
+                color: "from-cyan-400 to-blue-500"
+              },
+            
+              {
+                title: "Kampus Mengajar Angkatan 5",
+                issuer: "Kampus Merdeka",
+                date: "2023",
+                image: "/sertifikat/kampusmengajar.jpeg",
+                description: "Certificate of participation as a teaching volunteer in the Kampus Mengajar Batch 5 Program (February – June 2023), organized by Kampus Merdeka, Ministry of Education, Culture, Research, and Technology of the Republic of Indonesia. Signed by Drs. Gugup Kismono, M.B.A., Ph.D., Head of the Kampus Merdeka Implementation Unit.",
+                color: "from-cyan-600 to-blue-400"
+              },
+            ].map((cert, index) => (
+              
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+                whileHover={{ 
+                  y: -10,
+                  scale: 1.02,
+                  transition: { duration: 0.2 }
+                }}
+                className="group relative"
+              >
+                {/* Glowing border effect */}
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
+                
+                {/* Card content */}
+                <div className="relative bg-gradient-to-br from-slate-900 to-slate-950 rounded-2xl overflow-hidden border border-blue-900/30 group-hover:border-blue-500/50 transition-all duration-300 h-full flex flex-col">
+                  {/* Certificate Image */}
+                  <div className="relative h-48 overflow-hidden">
+                    <img
+                      src={cert.image}
+                      alt={cert.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent"></div>
+                    
+                    {/* Badge overlay */}
+                    <div className={`absolute top-4 right-4 w-12 h-12 rounded-xl bg-gradient-to-br ${cert.color} flex items-center justify-center shadow-lg backdrop-blur-sm`}>
+                      <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* Certificate info */}
+                  <div className="p-6 flex-1 flex flex-col">
+                    <h3 className="text-xl font-bold text-slate-100 mb-2 group-hover:text-blue-400 transition-colors">
+                      {cert.title}
+                    </h3>
+                    
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-sm text-cyan-400 font-medium">
+                        {cert.issuer}
+                      </span>
+                      <span className="text-xs text-slate-500 bg-slate-800/50 px-3 py-1 rounded-full border border-slate-700/50">
+                        {cert.date}
+                      </span>
+                    </div>
+
+                    <p className="text-sm text-slate-400 mb-4 flex-grow">
+                      {cert.description}
+                    </p>
+
+                    {/* Verification badge */}
+                    <div className="flex items-center gap-2 pt-4 border-t border-slate-800">
+                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                      <span className="text-xs text-slate-500">Terverifikasi</span>
+                    </div>
+                  </div>
+
+                  {/* Hover overlay effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* CTA Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.6 }}
+            className="text-center mt-12"
+          >
+          </motion.div>
+        </div>
+      </section>
+
       {/* ===== Bagian Projek (Projects) - Menggunakan ElectricBorder ===== */}
-      <section id="projects" className="py-24 bg-slate-900">
-        <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-4">
+      <section id="projects" className="py-24 bg-slate-950 relative">
+        <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl"></div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <h2 className="text-4xl font-bold text-center mb-4 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
             Projek Pilihan
           </h2>
-          <div className="w-24 h-1 bg-cyan-500 mx-auto mb-16"></div>
-          {/* Responsif Grid: 1 kolom di ponsel, 2 di tablet, 3 di desktop */}
+          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto mb-16"></div>
+          
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {myProjects.map((project, index) => (
-              // Bungkus setiap kartu proyek dengan ElectricBorder
               <ElectricBorder
                 key={index}
-                color="#06b6d4" // Warna Cyan
-                speed={0.5} 
-                chaos={0.6} 
-                thickness={2} 
-                style={{ borderRadius: 8, overflow: 'hidden' }} 
-                className="group transform transition-all duration-300 hover:!scale-[1.02] cursor-pointer" 
+                color="#3b82f6"
+                speed={0.5}
+                chaos={0.6}
+                thickness={2}
+                style={{ borderRadius: 12, overflow: "hidden" }}
+                className="group transform transition-all duration-300 hover:!scale-[1.03] cursor-pointer"
               >
-                <a 
-                  href={project.link} 
-                  target="_blank" 
+                <Link
+                  href={project.link}
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="block h-full bg-gray-800/50" // Kontainer internal
+                  className="block h-full bg-gradient-to-br from-slate-900/80 to-slate-950/80 backdrop-blur-sm"
                 >
                   <div className="relative overflow-hidden">
-                    <Image
+                    <img
                       src={project.image}
                       alt={project.title}
-                      width={500}
-                      height={300}
                       className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60"></div>
                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <span className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-full transition-colors">
+                      <span className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-bold py-3 px-6 rounded-full transition-all shadow-lg shadow-blue-500/50">
                         Lihat Detail
                       </span>
                     </div>
                   </div>
                   <div className="p-6">
-                    <h3 className="text-2xl font-bold mb-2 text-slate-100">
+                    <h3 className="text-2xl font-bold mb-2 text-slate-100 group-hover:text-blue-400 transition-colors">
                       {project.title}
                     </h3>
                     <p className="text-slate-400 mb-4">{project.description}</p>
@@ -455,14 +629,14 @@ export default function Home() {
                       {project.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="text-xs font-semibold bg-cyan-900/50 text-cyan-300 py-1 px-3 rounded-full"
+                          className="text-xs font-semibold bg-blue-900/50 text-blue-300 py-1 px-3 rounded-full border border-blue-700/30"
                         >
                           {tag}
                         </span>
                       ))}
                     </div>
                   </div>
-                </a>
+                </Link>
               </ElectricBorder>
             ))}
           </div>
@@ -472,27 +646,33 @@ export default function Home() {
       {/* ---------------------------------------------------- */}
 
       {/* ===== Bagian Kontak (Contact) ===== */}
-      <section id="contact" className="py-24 bg-gray-900">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-4">Mari Terhubung</h2>
-          <div className="w-24 h-1 bg-cyan-500 mx-auto mb-8"></div>
+      <section id="contact" className="py-24 bg-gradient-to-b from-slate-950 to-blue-950/30 relative">
+        <div className="absolute inset-0 w-full h-full overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+            Mari Terhubung
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto mb-8"></div>
           <p className="text-lg text-slate-400 mb-8 max-w-xl mx-auto">
             Saya selalu terbuka untuk diskusi, kolaborasi, atau peluang baru.
             Jangan ragu untuk menghubungi saya!
           </p>
-          <a
+          <Link
             href={`mailto:${myEmail}`}
-            className="inline-block bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg shadow-cyan-500/30"
+            className="inline-block bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-600 hover:from-blue-600 hover:via-cyan-600 hover:to-blue-700 text-white font-bold py-4 px-10 rounded-full transition-all duration-300 transform hover:scale-105 shadow-xl shadow-blue-500/40 hover:shadow-blue-500/60"
           >
             Hubungi Saya
-          </a>
+          </Link>
         </div>
       </section>
 
       {/* ---------------------------------------------------- */}
 
       {/* ===== Bagian Footer ===== */}
-      <footer className="bg-slate-900 text-center py-8 border-t border-slate-800">
+      <footer className="bg-slate-950 text-center py-8 border-t border-blue-900/20">
         <p className="text-slate-500">
           &copy; {new Date().getFullYear()} Stephanus S. Tupamahu. Dibuat dengan
           ❤️ menggunakan Next.js.
