@@ -77,7 +77,8 @@ const myProjects = [
     title: "SiBudidayaKakap",
     description:
       "Website modern dan responsif untuk profil perusahaan teknologi, dibuat dengan Next.js.",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop&q=80",
+    image:
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop&q=80",
     link: "https://github.com/username/project-repo-2",
     tags: ["PHP", "Tailwind CSS", "MySQL"],
   },
@@ -85,7 +86,8 @@ const myProjects = [
     title: "Sipenkes",
     description:
       "Blog pribadi yang dibuat dengan Next.js dan Tailwind CSS, mengambil data dari file Markdown.",
-    image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&h=500&fit=crop&q=80",
+    image:
+      "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&h=500&fit=crop&q=80",
     link: "https://github.com/username/project-repo-3",
     tags: ["Next.js", "Markdown", "Tailwind CSS"],
   },
@@ -93,7 +95,8 @@ const myProjects = [
     title: "Sistem Pakar",
     description:
       "proyek Sistem Pakar Diagnosa Penyakit Betta Fish berbasis android, menggunakan Backward Chaining & Certainty Factor untuk menentukan kemungkinan penyakit berdasarkan gejala yang dipilih..",
-    image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&h=500&fit=crop&q=80",
+    image:
+      "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&h=500&fit=crop&q=80",
     link: "https://github.com/Metyu5/sispak-android",
     tags: ["Java", "PHP", "MySQL"],
   },
@@ -123,7 +126,7 @@ const fullTimelineData: ExperienceItem[] = [
     title: "S1 Sistem Informasi",
     subtitle: "Universitas Ichsan Gorontalo Utara",
     description:
-      "Lulus dengan predikat cum laude. Fokus pada rekayasa perangkat lunak dan kecerdasan buatan.",
+      "Lulusan Sistem Informasi dengan keahlian di bidang pengembangan aplikasi, manajemen data, dan penerapan teknologi cerdas.",
   },
 
   // DATA BARU: SMA
@@ -133,7 +136,7 @@ const fullTimelineData: ExperienceItem[] = [
     title: "SMK (Teknik Instalasi Tenaga Listrik)",
     subtitle: "SMK NEGERI 3 GORONTALO",
     description:
-      "Aktif di klub robotika dan berhasil meraih juara 3 kompetisi tingkat provinsi.",
+      "Menempuh pendidikan di bidang Teknik Instalasi Tenaga Listrik di SMK Negeri 3 Gorontalo.",
   },
   // DATA BARU: SMP
   {
@@ -142,7 +145,7 @@ const fullTimelineData: ExperienceItem[] = [
     title: "SMP",
     subtitle: "SMP KRISTEN MAESA",
     description:
-      "Mulai tertarik pada dunia teknologi dan pemrograman dasar melalui ekstrakurikuler komputer.",
+      "Menempuh pendidikan di SMP KRISTEN MAESA",
   },
   // DATA BARU: SD
   {
@@ -174,61 +177,124 @@ export default function Home() {
     <main className="bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 text-slate-200">
       {/* ===== Header (Navbar) ===== */}
       <header className="backdrop-blur-md text-slate-200 p-4 sticky top-0 z-50 border-b border-blue-500/10">
-      <div className="container mx-auto flex justify-between items-center px-4">
-        {/* Logo dengan SplitText */}
-        <div className="text-2xl font-bold">
-          <SplitText
-           text="Portofolio"
-            className="text-2xl font-semibold text-center"
-            delay={100}
-            duration={0.6}
-            ease="power3.out"
-            splitType="chars"
-            from={{ opacity: 0, y: 40 }}
-            to={{ opacity: 1, y: 0 }}
-            threshold={0.1}
-            rootMargin="-100px"
-            textAlign="center"
-          />
-        </div>
+        <div className="container mx-auto flex justify-between items-center px-4">
+          {/* Logo dengan SplitText */}
+          <div className="text-2xl font-bold">
+            <SplitText
+              text="Portofolio"
+              className="text-2xl font-semibold text-center"
+              delay={100}
+              duration={0.6}
+              ease="power3.out"
+              splitType="chars"
+              from={{ opacity: 0, y: 40 }}
+              to={{ opacity: 1, y: 0 }}
+              threshold={0.1}
+              rootMargin="-100px"
+              textAlign="center"
+            />
+          </div>
 
-        {/* Menu desktop */}
-        <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-          <Link href="#experience" className="hover:text-blue-400 transition-colors duration-300">Pendidikan</Link>
-          <Link href="#certificates" className="hover:text-blue-400 transition-colors duration-300">Sertifikat</Link>
-          <Link href="#projects" className="hover:text-blue-400 transition-colors duration-300">Projek</Link>
-          <Link href="#contact" className="hover:text-blue-400 transition-colors duration-300">Kontak</Link>
-          <Link href="/resume.pdf" target="_blank"
-            className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-bold py-2 px-4 rounded-full transition-all duration-300 shadow-lg shadow-blue-500/30">
-            Resume
-          </Link>
-        </nav>
-
-        {/* Tombol Hamburger (Mobile Only) */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-2xl text-blue-400 focus:outline-none"
-        >
-          {isOpen ? <FiX /> : <FiMenu />}
-        </button>
-      </div>
-
-      {/* Menu Mobile */}
-      {isOpen && (
-        <div className="md:hidden backdrop-blur-lg border-t border-blue-500/20">
-          <nav className="flex flex-col items-center space-y-4 py-6 text-lg font-medium">
-            <Link onClick={() => setIsOpen(false)} href="#experience" className="hover:text-blue-400 transition-colors">Pendidikan</Link>
-            <Link onClick={() => setIsOpen(false)} href="#certificates" className="hover:text-blue-400 transition-colors">Sertifikat</Link>
-            <Link onClick={() => setIsOpen(false)} href="#projects" className="hover:text-blue-400 transition-colors">Projek</Link>
-            <Link onClick={() => setIsOpen(false)} href="#contact" className="hover:text-blue-400 transition-colors">Kontak</Link>
-            <Link onClick={() => setIsOpen(false)} href="/resume.pdf" target="_blank"
-              className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-bold py-2 px-6 rounded-full transition-all shadow-lg shadow-blue-500/30">
-              Resume
+          {/* Menu desktop */}
+          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+            <Link
+              href="#experience"
+              className="hover:text-blue-400 transition-colors duration-300"
+            >
+              Pendidikan
+            </Link>
+            <Link
+              href="#certificates"
+              className="hover:text-blue-400 transition-colors duration-300"
+            >
+              Sertifikat
+            </Link>
+            <Link
+              href="#projects"
+              className="hover:text-blue-400 transition-colors duration-300"
+            >
+              Projek
+            </Link>
+            <Link
+              href="#contact"
+              className="hover:text-blue-400 transition-colors duration-300"
+            >
+              Kontak
+            </Link>
+            <Link
+              href="/Resume.pdf"
+              target="_blank"
+              className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-bold py-2 px-4 rounded-full transition-all duration-300 shadow-lg shadow-blue-500/30"
+            >
+              CV 
             </Link>
           </nav>
+
+          {/* Tombol Hamburger (Mobile Only) */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden text-2xl text-blue-400 focus:outline-none"
+          >
+            {isOpen ? <FiX /> : <FiMenu />}
+          </button>
         </div>
-      )}
-    </header>
+
+        {/* Menu Mobile */}
+        <AnimatePresence>
+          {" "}
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+              className="md:hidden backdrop-blur-lg border-t border-blue-500/20 overflow-hidden"
+            >
+              {" "}
+              <nav className="flex flex-col items-center space-y-4 py-6 text-lg font-medium">
+                {" "}
+                <Link
+                  onClick={() => setIsOpen(false)}
+                  href="#experience"
+                  className="hover:text-blue-400 transition-colors"
+                >
+                  Pendidikan
+                </Link>{" "}
+                <Link
+                  onClick={() => setIsOpen(false)}
+                  href="#certificates"
+                  className="hover:text-blue-400 transition-colors"
+                >
+                  Sertifikat
+                </Link>{" "}
+                <Link
+                  onClick={() => setIsOpen(false)}
+                  href="#projects"
+                  className="hover:text-blue-400 transition-colors"
+                >
+                  Projek
+                </Link>{" "}
+                <Link
+                  onClick={() => setIsOpen(false)}
+                  href="#contact"
+                  className="hover:text-blue-400 transition-colors"
+                >
+                  Kontak
+                </Link>{" "}
+                <Link
+                  onClick={() => setIsOpen(false)}
+                  href="/resume.pdf"
+                  target="_blank"
+                  className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-bold py-2 px-6 rounded-full transition-all shadow-lg shadow-blue-500/30"
+                >
+                  {" "}
+                  Resume{" "}
+                </Link>{" "}
+              </nav>{" "}
+            </motion.div>
+          )}{" "}
+        </AnimatePresence>
+      </header>
       <section
         id="home"
         className="min-h-screen flex items-center relative overflow-hidden"
@@ -292,10 +358,9 @@ export default function Home() {
               delay={150}
               animateBy="words"
               direction="top"
-              className="text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500 bg-clip-text text-transparent"
+              className="text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500 bg-clip-text"
             />
           </div>
-
           <TypeAnimation
             sequence={[
               "Web Developer",
@@ -349,11 +414,14 @@ export default function Home() {
       {/* ---------------------------------------------------- */}
 
       {/* ===== Bagian Pendidikan (Education - Vertical Timeline) ===== */}
-      <section id="experience" className="py-24 bg-slate-950/50 backdrop-blur-sm relative">
+      <section
+        id="experience"
+        className="py-24 bg-slate-950/50 backdrop-blur-sm relative"
+      >
         {/* Background Accent */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl"></div>
-        
+
         <div className="container mx-auto px-4 relative z-10">
           <h2 className="text-4xl font-bold text-center mb-4 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
             Riwayat Pendidikan
@@ -366,16 +434,19 @@ export default function Home() {
                 key={index}
                 className="vertical-timeline-element--education"
                 contentStyle={{
-                  background: "linear-gradient(135deg, #1e293b 0%, #0f172a 100%)",
+                  background:
+                    "linear-gradient(135deg, #1e293b 0%, #0f172a 100%)",
                   color: "#e2e8f0",
-                  boxShadow: "0 3px 0 #3b82f6, 0 0 20px rgba(59, 130, 246, 0.3)",
+                  boxShadow:
+                    "0 3px 0 #3b82f6, 0 0 20px rgba(59, 130, 246, 0.3)",
                   border: "1px solid rgba(59, 130, 246, 0.3)",
                   borderRadius: "12px",
                 }}
                 contentArrowStyle={{ borderRight: "7px solid #1e293b" }}
                 date={item.date}
-                iconStyle={{ 
-                  background: "linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)", 
+                iconStyle={{
+                  background:
+                    "linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)",
                   color: "#fff",
                   boxShadow: "0 0 20px rgba(59, 130, 246, 0.6)",
                 }}
@@ -391,9 +462,9 @@ export default function Home() {
               </VerticalTimelineElement>
             ))}
             <VerticalTimelineElement
-              iconStyle={{ 
-                background: "linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)", 
-                color: "#fff" 
+              iconStyle={{
+                background: "linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)",
+                color: "#fff",
               }}
               icon={<MdSchool />}
             />
@@ -408,7 +479,7 @@ export default function Home() {
           <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
           <div className="absolute top-1/3 right-1/4 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl"></div>
         </div>
-        
+
         <div className="container mx-auto relative z-10">
           <h1 className="text-4xl mb-10 text-center font-semibold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
             Keahlian
@@ -429,7 +500,10 @@ export default function Home() {
       </section>
 
       {/* ===== Bagian Sertifikat (Certificates) ===== */}
-      <section id="certificates" className="py-24 bg-slate-950/80 relative overflow-hidden">
+      <section
+        id="certificates"
+        className="py-24 bg-slate-950/80 relative overflow-hidden"
+      >
         {/* Animated Background Elements */}
         <div className="absolute top-0 left-0 w-full h-full">
           <div className="absolute top-20 left-10 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
@@ -457,64 +531,69 @@ export default function Home() {
             {[
               {
                 title: "JUNIOR REMOTE PILOT",
-                issuer: "FEDERASI AERO SPORT INDONESIA UNMANNED AERIAL VEHICLE-DRONE",
+                issuer:
+                  "FEDERASI AERO SPORT INDONESIA UNMANNED AERIAL VEHICLE-DRONE",
                 date: "2025",
                 image: "/sertifikat/pilotremote.png",
-                description: "Has Successfully Completed Junior Remote Pilot Aeronautical Knowledge Course For Small Unmanned Aircraft Systems (sUAS) in the field of Airsport, Educational, and Recreational",
-                color: "from-blue-500 to-cyan-500"
+                description:
+                  "Has Successfully Completed Junior Remote Pilot Aeronautical Knowledge Course For Small Unmanned Aircraft Systems (sUAS) in the field of Airsport, Educational, and Recreational",
+                color: "from-blue-500 to-cyan-500",
               },
               {
                 title: "DASAR-DASAR CYBER SECURITY",
                 issuer: "Coding Studio",
                 date: "2025",
                 image: "/sertifikat/codingstudio.png",
-                description: "Complete an online course on cybersecurity fundamentals, covering information security principles, types of cyber threats, network protection, and best practices in maintaining digital security.",
-                color: "from-cyan-500 to-blue-600"
+                description:
+                  "Complete an online course on cybersecurity fundamentals, covering information security principles, types of cyber threats, network protection, and best practices in maintaining digital security.",
+                color: "from-cyan-500 to-blue-600",
               },
               {
                 title: "FUNDAMENTAL JAVA PROGRAMMING",
                 issuer: "Coding Studio",
                 date: "2025",
                 image: "/sertifikat/javaprogramming.png",
-                description: "Successfully complete the Fundamental Java Programming course, covering core Java concepts such as OOP, data types, control structures, and basic algorithm implementations.",
-                color: "from-blue-600 to-cyan-400"
+                description:
+                  "Successfully complete the Fundamental Java Programming course, covering core Java concepts such as OOP, data types, control structures, and basic algorithm implementations.",
+                color: "from-blue-600 to-cyan-400",
               },
-              
+
               {
                 title: "APLIKASI KOMPUTER",
                 issuer: "Is NUN",
                 date: "2021",
                 image: "/sertifikat/sertifikat-komputer.jpeg",
-                description: "Computer Completion Certificate from the IS NUN Vocational Education and Training Institute. I learned basic computer skills, including mastery of Microsoft Office (Word, Excel, PowerPoint) to support my work productivity.",
-                color: "from-cyan-400 to-blue-500"
+                description:
+                  "Computer Completion Certificate from the IS NUN Vocational Education and Training Institute. I learned basic computer skills, including mastery of Microsoft Office (Word, Excel, PowerPoint) to support my work productivity.",
+                color: "from-cyan-400 to-blue-500",
               },
-            
+
               {
                 title: "Kampus Mengajar Angkatan 5",
                 issuer: "Kampus Merdeka",
                 date: "2023",
                 image: "/sertifikat/kampusmengajar.jpeg",
-                description: "Certificate of participation as a teaching volunteer in the Kampus Mengajar Batch 5 Program (February – June 2023), organized by Kampus Merdeka, Ministry of Education, Culture, Research, and Technology of the Republic of Indonesia. Signed by Drs. Gugup Kismono, M.B.A., Ph.D., Head of the Kampus Merdeka Implementation Unit.",
-                color: "from-cyan-600 to-blue-400"
+                description:
+                  "Certificate of participation as a teaching volunteer in the Kampus Mengajar Batch 5 Program (February – June 2023), organized by Kampus Merdeka, Ministry of Education, Culture, Research, and Technology of the Republic of Indonesia. Signed by Drs. Gugup Kismono, M.B.A., Ph.D., Head of the Kampus Merdeka Implementation Unit.",
+                color: "from-cyan-600 to-blue-400",
               },
             ].map((cert, index) => (
-              
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 50, scale: 0.9 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
-                whileHover={{ 
+                whileHover={{
                   y: -10,
                   scale: 1.02,
-                  transition: { duration: 0.2 }
+                  transition: { duration: 0.2 },
                 }}
                 className="group relative"
               >
                 {/* Glowing border effect */}
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
-                
+
                 {/* Card content */}
                 <div className="relative bg-gradient-to-br from-slate-900 to-slate-950 rounded-2xl overflow-hidden border border-blue-900/30 group-hover:border-blue-500/50 transition-all duration-300 h-full flex flex-col">
                   {/* Certificate Image */}
@@ -525,10 +604,16 @@ export default function Home() {
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent"></div>
-                    
+
                     {/* Badge overlay */}
-                    <div className={`absolute top-4 right-4 w-12 h-12 rounded-xl bg-gradient-to-br ${cert.color} flex items-center justify-center shadow-lg backdrop-blur-sm`}>
-                      <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <div
+                      className={`absolute top-4 right-4 w-12 h-12 rounded-xl bg-gradient-to-br ${cert.color} flex items-center justify-center shadow-lg backdrop-blur-sm`}
+                    >
+                      <svg
+                        className="w-6 h-6 text-white"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                       </svg>
                     </div>
@@ -539,7 +624,7 @@ export default function Home() {
                     <h3 className="text-xl font-bold text-slate-100 mb-2 group-hover:text-blue-400 transition-colors">
                       {cert.title}
                     </h3>
-                    
+
                     <div className="flex items-center justify-between mb-3">
                       <span className="text-sm text-cyan-400 font-medium">
                         {cert.issuer}
@@ -556,7 +641,9 @@ export default function Home() {
                     {/* Verification badge */}
                     <div className="flex items-center gap-2 pt-4 border-t border-slate-800">
                       <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                      <span className="text-xs text-slate-500">Terverifikasi</span>
+                      <span className="text-xs text-slate-500">
+                        Terverifikasi
+                      </span>
                     </div>
                   </div>
 
@@ -574,8 +661,7 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ delay: 0.6 }}
             className="text-center mt-12"
-          >
-          </motion.div>
+          ></motion.div>
         </div>
       </section>
 
@@ -583,13 +669,13 @@ export default function Home() {
       <section id="projects" className="py-24 bg-slate-950 relative">
         <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 right-20 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl"></div>
-        
+
         <div className="container mx-auto px-4 relative z-10">
           <h2 className="text-4xl font-bold text-center mb-4 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
             Projek Pilihan
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto mb-16"></div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {myProjects.map((project, index) => (
               <ElectricBorder
@@ -646,11 +732,14 @@ export default function Home() {
       {/* ---------------------------------------------------- */}
 
       {/* ===== Bagian Kontak (Contact) ===== */}
-      <section id="contact" className="py-24 bg-gradient-to-b from-slate-950 to-blue-950/30 relative">
+      <section
+        id="contact"
+        className="py-24 bg-gradient-to-b from-slate-950 to-blue-950/30 relative"
+      >
         <div className="absolute inset-0 w-full h-full overflow-hidden">
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"></div>
         </div>
-        
+
         <div className="container mx-auto px-4 text-center relative z-10">
           <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
             Mari Terhubung
