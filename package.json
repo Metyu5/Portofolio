@@ -27,6 +27,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/react-vertical-timeline-component": "^3.3.6",
+    "@types/three": "^0.180.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
