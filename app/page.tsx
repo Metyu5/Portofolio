@@ -78,7 +78,7 @@ const myProjects = [
     description:
       "Website modern dan responsif untuk profil perusahaan teknologi, dibuat dengan Next.js.",
     image:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop&q=80",
+      "/webgami/sibudidaya.png",
     link: "https://github.com/username/project-repo-2",
     tags: ["PHP", "Tailwind CSS", "MySQL"],
   },
