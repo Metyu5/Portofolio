@@ -336,7 +336,7 @@ export default function Home() {
             {/* Profile Card */}
             <ProfileCard
               name="Stephanus S. Tupamahu"
-              title="Software Engineer"
+              title="Fullstack Developer"
               handle="mtdeveloper"
               status="Ready"
               contactText="Contact Me"
